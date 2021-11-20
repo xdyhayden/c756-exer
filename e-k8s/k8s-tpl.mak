@@ -212,8 +212,7 @@ ls-tables:
 # --- registry-login: Login to the container registry
 #
 registry-login:
-	# Use '@' to suppress echoing the $CR_PAT to screen
-	@/bin/sh -c 'echo ${CR_PAT} | $(DK) login $(CREG) -u $(REGID) --password-stdin'
+	@/bin/sh -c 'cat cluster/${CREG}-token.txt | $(DK) login $(CREG) -u $(REGID) --password-stdin'
 
 # --- Variables defined for URL targets
 # Utility to get the hostname (AWS) or ip (everyone else) of a load-balanced service
@@ -329,29 +328,29 @@ db: $(LOG_DIR)/db.repo.log cluster/awscred.yaml cluster/dynamodb-service-entry.y
 cri: $(LOG_DIR)/s1.repo.log $(LOG_DIR)/s2-$(S2_VER).repo.log $(LOG_DIR)/db.repo.log
 
 # Build the s1 service
-$(LOG_DIR)/s1.repo.log: s1/Dockerfile s1/app.py s1/requirements.txt
+$(LOG_DIR)/s1.repo.log: s1/Dockerfile s1/app.py s1/requirements.txt registry-login
 	$(DK) build -t $(CREG)/$(REGID)/cmpt756s1:$(APP_VER_TAG) s1 | tee $(LOG_DIR)/s1.img.log
 	$(DK) push $(CREG)/$(REGID)/cmpt756s1:$(APP_VER_TAG) | tee $(LOG_DIR)/s1.repo.log
 
 # Build the s2 service
-$(LOG_DIR)/s2-$(S2_VER).repo.log: s2/$(S2_VER)/Dockerfile s2/$(S2_VER)/app.py s2/$(S2_VER)/requirements.txt
+$(LOG_DIR)/s2-$(S2_VER).repo.log: s2/$(S2_VER)/Dockerfile s2/$(S2_VER)/app.py s2/$(S2_VER)/requirements.txt registry-login
 	$(DK) build -t $(CREG)/$(REGID)/cmpt756s2:$(S2_VER) s2/$(S2_VER) | tee $(LOG_DIR)/s2-$(S2_VER).img.log
 	$(DK) push $(CREG)/$(REGID)/cmpt756s2:$(S2_VER) | tee $(LOG_DIR)/s2-$(S2_VER).repo.log
 
 # Build the db service
-$(LOG_DIR)/db.repo.log: db/Dockerfile db/app.py db/requirements.txt
+$(LOG_DIR)/db.repo.log: db/Dockerfile db/app.py db/requirements.txt registry-login
 	$(DK) build -t $(CREG)/$(REGID)/cmpt756db:$(APP_VER_TAG) db | tee $(LOG_DIR)/db.img.log
 	$(DK) push $(CREG)/$(REGID)/cmpt756db:$(APP_VER_TAG) | tee $(LOG_DIR)/db.repo.log
 
 # Build the loader
-$(LOG_DIR)/loader.repo.log: loader/app.py loader/requirements.txt loader/Dockerfile
+$(LOG_DIR)/loader.repo.log: loader/app.py loader/requirements.txt loader/Dockerfile registry-login
 	$(DK) image build -t $(CREG)/$(REGID)/cmpt756loader:$(LOADER_VER) loader  | tee $(LOG_DIR)/loader.img.log
 	$(DK) push $(CREG)/$(REGID)/cmpt756loader:$(LOADER_VER) | tee $(LOG_DIR)/loader.repo.log
 
 # Push all the container images to the container registry
 # This isn't often used because the individual build targets also push
 # the updated images to the registry
-cr:
+cr: registry-login
 	$(DK) push $(CREG)/$(REGID)/cmpt756s1:$(APP_VER_TAG) | tee $(LOG_DIR)/s1.repo.log
 	$(DK) push $(CREG)/$(REGID)/cmpt756s2:$(S2_VER) | tee $(LOG_DIR)/s2.repo.log
 	$(DK) push $(CREG)/$(REGID)/cmpt756db:$(APP_VER_TAG) | tee $(LOG_DIR)/db.repo.log
@@ -377,7 +376,7 @@ gatling-user:
 
 # ---------------------------------------------------------------------------------------
 # Handy bits for exploring the container images... not necessary
-image: showcontext
+image: showcontext registry-login
 	$(DK) image ls | tee __header | grep $(REGID) > __content
 	head -n 1 __header
 	cat __content
