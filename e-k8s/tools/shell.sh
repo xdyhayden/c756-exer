@@ -2,6 +2,7 @@
 # Start the CMPT 756 environment
 set -o nounset
 set -o errexit
+set -o xtrace
 if [[ $# -eq 1 ]]
 then
   VER=${1}
@@ -9,8 +10,10 @@ else
   # Let registry select the appropriate architecture
   VER=v1.0beta2
 fi
-REGISTRY=ghcr.io
-USERID=tedkirkpatrick
+CREG=${CREG:-ghcr.io}
+REGID=${REGID:-scp756-221}
+INAME=${INAME:-c756-tool}
+TZ=${TZ:-Canada/Pacific}
 docker container run -it --rm \
   -v ${HOME}/.aws:/root/.aws \
   -v ${HOME}/.azure:/root/.azure \
@@ -22,5 +25,5 @@ docker container run -it --rm \
   -v ${PWD}/gatling:/opt/gatling/user-files \
   -v ${PWD}/gatling/target:/opt/gatling/target \
   -v ${PWD}:/home/k8s \
-  -e TZ=Canada/Pacific \
-  ${REGISTRY}/${USERID}/cmpt-756-tools:${VER}
+  -e TZ=${TZ} \
+  ${CREG}/${REGID}/${INAME}:${VER}
