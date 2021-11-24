@@ -1,7 +1,7 @@
 # Building the services on a CSIL machine
 
-Students with ARM64/v8 machines (such as Apple Macs with M1
-processors) cannot build the service container images on their
+Students with ARM64/v8 ("Apple silicon" aka M1/Pro/Max) machines such as the 2020/2021 Apple Macs 
+cannot build the service container images on their
 machines. Instead, you must use remote login to build the images on a
 Computer Science Instructional Laboratory (CSIL) lab machine, which
 have x86_64 processors, and push them to the registry from there.
@@ -225,11 +225,11 @@ done.
 
 ## Simplifying the procedure once you have some experience
 
-The procedure presented here emphasizes safety over speed. Once you
+The procedure presented here emphasizes reliability over speed. Once you
 are familiar with the steps, you can optimize it for your own
 workflow. There are many workflows you might prefer, depending upon
 your circumstances.
 
 One recommendation: Always modify the source files on your own
-machine, then transfer them to the CSIL machine. Keep the latest,
+machine (preferably in a git repo), then transfer them to the CSIL machine (e.g., git pull). Keep the latest,
 best version of the your code in one place.
