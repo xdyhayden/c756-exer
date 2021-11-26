@@ -203,7 +203,7 @@ dynamodb-init: $(LOG_DIR)/dynamodb-init.log
 dynamodb-clean:
 	$(AWS) cloudformation delete-stack --stack-name db-ZZ-REG-ID || true | tee $(LOG_DIR)/dynamodb-clean.log
 	@# Rename DynamoDB log so dynamodb-init will force a restart but retain the log
-	/bin/mv -f $(LOG_DIR)/dynamodb-init.log $(LOG_DIR)/dynamodb-init-old.log
+	/bin/mv -f $(LOG_DIR)/dynamodb-init.log $(LOG_DIR)/dynamodb-init-old.log || true
 
 # --- ls-tables: List the tables and their read/write units for all DynamodDB tables
 ls-tables:
