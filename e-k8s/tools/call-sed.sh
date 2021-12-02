@@ -22,5 +22,5 @@ sed -e "s|ZZ-CR-ID|${2}|g" -e "s|ZZ-REG-ID|${3}|g" -e "s|ZZ-AWS-REGION|${4}|g" -
 # If this is the AWS credentials and there is no session token, delete the line containing AWS_SESSION_TOKEN
 if [[ ( "${out/*awscred.yaml/awscred.yaml}" == 'awscred.yaml' ) && ( "${7}" == "" ) ]]
 then
-  sed -i -e '/AWS_SESSION_TOKEN/d' ${out}
+  sed -e '/AWS_SESSION_TOKEN/d' -i ${out}
 fi
