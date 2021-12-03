@@ -121,7 +121,7 @@ def delete_song(music_id):
 
 @bp.route('/test', methods=['GET'])
 def test():
-    if 'a94a5bd17601c38f491c532452e65f1b1af5efd6d0964b9e8011c4e4a773942a' != ucode:
+    if '' != ucode:
         raise Exception("Test failed")
     return {}
     
