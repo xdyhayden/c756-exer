@@ -27,4 +27,5 @@ docker container run -it --rm \
   -v ${PWD}/gatling/target:/opt/gatling/target \
   -v ${PWD}:/home/k8s \
   -e TZ=${TZ} \
+  -e HWD=${PWD} \
   ${CREG}/${REGID}/${INAME}:${VER}
