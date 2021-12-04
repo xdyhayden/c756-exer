@@ -40,12 +40,11 @@ jobs:
           mv ${{ github.workspace }}/e-k8s/s1/s11.yaml ${{ github.workspace }}/e-k8s/s1/s1.yaml
           mv ${{ github.workspace }}/e-k8s/s2/s21.yaml ${{ github.workspace }}/e-k8s/s2/s2.yaml
 
-          # switch to us-west-2 for a standard AWS account; also remove the unneeded session token
+          # switch to us-west-2 for a standard AWS account
           sed 's/us-east-1/us-west-2/' ${{ github.workspace }}/e-k8s/db/db1.yaml > ${{ github.workspace }}/e-k8s/db/db2.yaml
           sed 's/AWS_ACCESS_KEY_ID/${{ secrets.AWS_ACCESS_KEY_ID }}/' ${{ github.workspace }}/e-k8s/db/db2.yaml > ${{ github.workspace }}/e-k8s/db/db3.yaml
-          sed 's/AWS_SECRET_ACCESS_KEY/${{ secrets.AWS_SECRET_ACCESS_KEY }}/' ${{ github.workspace }}/e-k8s/db/db3.yaml > ${{ github.workspace }}/e-k8s/db/db4.yaml
-          sed 's/AWS_SESSION_TOKEN: your-session-token//' ${{ github.workspace }}/e-k8s/db/db4.yaml > ${{ github.workspace }}/e-k8s/db/dbf.yaml
-          rm ${{ github.workspace }}/e-k8s/db/db[1234].yaml
+          sed 's/AWS_SECRET_ACCESS_KEY/${{ secrets.AWS_SECRET_ACCESS_KEY }}/' ${{ github.workspace }}/e-k8s/db/db3.yaml > ${{ github.workspace }}/e-k8s/db/dbf.yaml
+          rm ${{ github.workspace }}/e-k8s/db/db[123].yaml
           mv ${{ github.workspace }}/e-k8s/db/dbf.yaml ${{ github.workspace }}/e-k8s/db/db.yaml
 
       - name: Setup Minikube

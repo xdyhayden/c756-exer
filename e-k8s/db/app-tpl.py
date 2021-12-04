@@ -42,27 +42,14 @@ region = os.getenv('AWS_REGION', 'us-east-1')
 access_key = os.getenv('AWS_ACCESS_KEY_ID')
 secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
 
-# this is only needed for starter accounts
-session_token = os.getenv('AWS_SESSION_TOKEN')
-
 # Must be presented to authorize call to `/load`
 loader_token = os.getenv('SVC_LOADER_TOKEN')
 
-# if session_token is not present in the environment, assume it is a
-# standard acct which doesn't need one; otherwise, add it on.
-if not session_token:
-    dynamodb = boto3.resource(
-        'dynamodb',
-        region_name=region,
-        aws_access_key_id=access_key,
-        aws_secret_access_key=secret_access_key)
-else:
-    dynamodb = boto3.resource(
-        'dynamodb',
-        region_name=region,
-        aws_access_key_id=access_key,
-        aws_secret_access_key=secret_access_key,
-        aws_session_token=session_token)
+dynamodb = boto3.resource(
+    'dynamodb',
+    region_name=region,
+    aws_access_key_id=access_key,
+    aws_secret_access_key=secret_access_key)
 
 
 # Change the implementation of this: you should probably have a separate
