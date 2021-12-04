@@ -124,7 +124,17 @@ def test():
     if '' != ucode:
         raise Exception("Test failed")
     return {}
-    
+
+
+@bp.route('/shutdown', methods=['GET'])
+def shutdown():
+    # From https://stackoverflow.com/questions/15562446/how-to-stop-flask-application-without-using-ctrl-c
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
+    return {}
+
 
 app.register_blueprint(bp, url_prefix='/api/v1/music/')
 

@@ -173,6 +173,18 @@ Enter 'help' for command list.
         if r.status_code != 200:
             print("Non-successfuls status code:", r.status_code)
 
+    def do_shutdown(self, arg):
+        """
+        Tell the music cerver to shut down.
+        """
+        url = get_url(self.name, self.port)
+        r = requests.get(
+            url+'shutdown',
+            headers={'Authorization': DEFAULT_AUTH}
+            )
+        if r.status_code != 200:
+            print("Non-successfuls status code:", r.status_code)
+
 
 if __name__ == '__main__':
     args = parse_args()
