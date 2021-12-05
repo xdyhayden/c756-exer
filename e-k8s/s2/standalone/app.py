@@ -121,7 +121,9 @@ def delete_song(music_id):
 
 @bp.route('/test', methods=['GET'])
 def test():
-    if '' != ucode:
+    # Deliberately wrong value, testing the CI workflow for A1
+    # This value is for user 'tedkirkpatrick', not 'scp756-221'
+    if 'c69314133f0dfb2a79c93278335d6c10ed60498c20b03d49168db2344d579d89' != ucode:
         raise Exception("Test failed")
     return {}
 
