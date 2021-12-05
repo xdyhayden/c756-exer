@@ -16,7 +16,7 @@ jobs:
         # For A1, only need ZZ-REG-ID to instantiate e-k8s/s2/standalone/unique_code-tpl.py
         run: |
           cd e-k8s
-          sed -e "s/ZZ-REG-ID=.*/ZZ-REG-ID=${{ github.repository_owner }}/" -i cluster/tpl-vars.txt
+          sed -e "s/ZZ-REG-ID=.*/ZZ-REG-ID=${{ github.repository_owner }}/" cluster/tpl-vars-blank.txt > cluster/tpl-vars.txt
           make -f k8s-tpl.mak templates
           cd ..
 
