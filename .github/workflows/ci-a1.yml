@@ -44,6 +44,7 @@ jobs:
           # Give time for server to start up
           sleep 5
           docker container ls
+          docker container inspect s2 --format '{{.NetworkSettings.IPAddress}}'
           cd e-k8s/s2/test/
           make run-music_test
           #test_result=$?
