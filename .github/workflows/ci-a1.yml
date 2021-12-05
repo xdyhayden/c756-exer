@@ -1,0 +1,47 @@
+name: Test of Assignment 1
+
+on:
+  push:
+    paths:
+      - e-k8s/s2/standalone/app.py
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Instantiate template files
+        # For A1, only need ZZ-REG-ID to instantiate e-k8s/s2/standalone/unique_code-tpl.py
+        run: |
+          cd e-k8s
+          sed -e "s/ZZ-REG-ID=.*/ZZ-REG-ID=${{ github.repository_owner }}/" -i cluster/tpl-vars.txt
+          make -f k8s-tpl.mak templates
+          cd ..
+
+      - name: Build server
+        run: |
+          cd e-k8s/s2/standalone/
+          ./builda1.sh
+          cd ..
+
+      - name: Run server
+        run: |
+          cd e-k8s/s2/standalone
+          ./runa1.sh --detached
+          cd ..
+
+      - name: Build test client
+        run: |
+          cd e-k8s/s2/test/
+          make build-music_test
+          cd ..
+
+      - name: Run test client
+        # The success or failure of the job is determined by the
+        # return code from this last step
+        run: |
+         cd e-k8s/s2/test/
+         make run-music_test
+         #test_result=$?
