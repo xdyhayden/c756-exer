@@ -9,9 +9,9 @@ build-s2:
 run-s2:
 	docker container run -it --rm -p 30001:30001 -v $(HOST_DIR):/data --name s2 s2-standalone:$(VER)
 
-# Run the container in detached mode---mostly used for testing
+# Run the container in detached mode and retain its logs---mostly used for testing
 run-s2-detached:
-	docker container run -d  --rm -p 30001:30001 -v $(HOST_DIR):/data --name s2 s2-standalone:$(VER)
+	docker container run -d       -p 30001:30001 -v $(HOST_DIR):/data --name s2 s2-standalone:$(VER)
 
 # Run with different port and volume mappings to demonstrate container mappings
 # HOWEVER, if the client is running from another container connecting to this over the bridge
