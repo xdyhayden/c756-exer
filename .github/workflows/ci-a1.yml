@@ -26,16 +26,13 @@ jobs:
         run: |
           cd e-k8s/s2/standalone/
           ./builda1.sh
-          cd ..
-
-      - name: Run server
-        run: |
+          cd ../../..
 
       - name: Build test client
         run: |
           cd e-k8s/s2/test/
           make build-music_test
-          cd ..
+          cd ../../..
 
       - name: Run server and test client
         # The success or failure of the job is determined by the
@@ -43,7 +40,7 @@ jobs:
         run: |
           cd e-k8s/s2/standalone
           HWD=${PWD} ./runa1.sh --detached
-          cd ..
+          cd ../../..
           # Give time for server to start up
           sleep 5
           docker container ls
