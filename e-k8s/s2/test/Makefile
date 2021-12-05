@@ -2,7 +2,7 @@
 
 VER=v0.8
 
-SERVER=`docker inspect s2 --format '{{.NetworkSettings.IPAddress}}'`
+SERVER=`docker container inspect s2 --format '{{.NetworkSettings.IPAddress}}'`
 
 build-music_test:
 	docker image build -f Dockerfile -t music_test:$(VER) .

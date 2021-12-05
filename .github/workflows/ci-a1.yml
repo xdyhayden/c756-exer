@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - e-k8s/s2/standalone/app.py
+      - e-k8s/s2/test
+      - .github/workflows/ci-a1.yml
 
 jobs:
   build:
@@ -42,6 +44,8 @@ jobs:
         # The success or failure of the job is determined by the
         # return code from this last step
         run: |
+         echo "${{ github.repository_owner }}"
+         docker container ls
          cd e-k8s/s2/test/
          make run-music_test
          #test_result=$?
