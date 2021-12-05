@@ -45,8 +45,7 @@ def test(args):
         url+'test',
         headers={'Authorization': DEFAULT_AUTH}
         )
-    if r.status_code != 200:
-        sys.exit(1)
+    return r.status_code
 
 
 def shutdown(args):
@@ -55,12 +54,14 @@ def shutdown(args):
         url+'shutdown',
         headers={'Authorization': DEFAULT_AUTH}
         )
-    if r.status_code != 200:
-        sys.exit(1)
+    return r.status_code
 
 
 if __name__ == '__main__':
     args = parse_args()
-    test(args)
-    shutdown(args)
-    sys.exit(0)
+    trc = test(args)
+    src = shutdown(args)
+    if trc == 200 and src == 200:
+        sys.exit(0)
+    else:
+        sys.exit(1)
