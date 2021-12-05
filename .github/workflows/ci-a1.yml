@@ -38,8 +38,10 @@ jobs:
         # The success or failure of the job is determined by the
         # return code from this last step
         run: |
-          cd e-k8s/s2/standalone
-          HWD=${PWD} ./runa1.sh --detached
+          cd e-k8s
+          export HWD=${PWD}
+          cd s2/standalone
+          ./runa1.sh --detached
           cd ../../..
           # Give time for server to start up
           sleep 5
