@@ -123,7 +123,7 @@ def delete_song(music_id):
 def test():
     # Deliberately wrong value, testing the CI workflow for A1
     # This value is invalid for any user
-    if 'c69314133f0dfb2a79c9327833' != ucode:
+    if 'c69314133f0dfb2a79c93278' != ucode:
         raise Exception("Test failed")
     return {}
 
