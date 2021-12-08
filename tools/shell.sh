@@ -21,7 +21,6 @@ docker container run -it --rm \
   -v ${HOME}/.ssh:/root/.ssh \
   -v ${HOME}/.kube:/root/.kube \
   -v ${HOME}/.config:/root/.config \
-  -v ${HOME}/.git:/root/.git \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v ${PWD}/gatling/results:/opt/gatling/results \
   -v ${PWD}/gatling:/opt/gatling/user-files \
