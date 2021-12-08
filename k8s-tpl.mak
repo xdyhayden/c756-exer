@@ -18,8 +18,6 @@
 CREG=ZZ-CR-ID
 REGID=ZZ-REG-ID
 AWS_REGION=ZZ-AWS-REGION
-JAVA_HOME=ZZ-JAVA-HOME
-GAT_DIR=ZZ-GAT-DIR
 
 # Keep all the logs out of main directory
 LOG_DIR=logs
@@ -35,23 +33,6 @@ IC=istioctl
 APP_VER_TAG=v1
 S2_VER=v1
 LOADER_VER=v1
-
-# Gatling parameters to be overridden by environment variables and `make -e`
-SIM_NAME=ReadUserSim
-USERS=1
-
-# Gatling parameters that most of the time will be unchanged
-# but which you might override as projects become sophisticated
-SIM_FILE=ReadTables.scala
-SIM_PACKAGE=proj756
-GATLING_OPTIONS=
-
-# Other Gatling parameters---you should not have to change these
-GAT=$(GAT_DIR)/bin/gatling.sh
-SIM_DIR=gatling/simulations
-RES_DIR=gatling/resources
-SIM_PACKAGE_DIR=$(SIM_DIR)/$(SIM_PACKAGE)
-SIM_FULL_NAME=$(SIM_PACKAGE).$(SIM_NAME)
 
 # Kubernetes parameters that most of the time will be unchanged
 # but which you might override as projects become sophisticated
@@ -237,20 +218,6 @@ prometheus-url:
 	@# Use back-tick for subshell so as not to confuse with make $() variable notation
 	@/bin/sh -c 'echo http://`$(IP_GET_CMD) svc/prom-ingress`:9090/'
 
-# --- Variables defined for Gatling targets
-#
-# Suffix to all Gatling commands
-# 2>&1:       Redirect stderr to stdout. This ensures the long errors from a
-#             misnamed Gatling script are clipped
-# | head -18: Display first 18 lines, discard the rest
-# &:          Run in background
-GAT_SUFFIX=2>&1 | head -18 &
-
-# --- gatling-command: Print the bash command to run a Gatling simulation
-# Less convenient than gatling-music or gatling-user (below) but the resulting commands
-# from this target are listed by `jobs` and thus easy to kill.
-gatling-command:
-	@/bin/sh -c 'echo "CLUSTER_IP=$(INGRESS_IP) USERS=1 SIM_NAME=ReadMusicSim make -e -f k8s.mak run-gatling $(GAT_SUFFIX)"'
 
 # ----------------------------------------------------------------------------------------
 # ------- Targets called by above. Not normally invoked directly from command line -------
@@ -357,25 +324,6 @@ cr: registry-login
 	$(DK) push $(CREG)/$(REGID)/cmpt756s1:$(APP_VER_TAG) | tee $(LOG_DIR)/s1.repo.log
 	$(DK) push $(CREG)/$(REGID)/cmpt756s2:$(S2_VER) | tee $(LOG_DIR)/s2.repo.log
 	$(DK) push $(CREG)/$(REGID)/cmpt756db:$(APP_VER_TAG) | tee $(LOG_DIR)/db.repo.log
-
-#
-# Other attempts at Gatling commands. Target `gatling-command` is preferred.
-# The following may not even work.
-#
-# General Gatling target: Specify CLUSTER_IP, USERS, and SIM_NAME as environment variables. Full output.
-run-gatling:
-	JAVA_HOME=$(JAVA_HOME) $(GAT) -rsf $(RES_DIR) -sf $(SIM_DIR) -bf $(GAT_DIR)/target/test-classes -s $(SIM_FULL_NAME) -rd "Simulation $(SIM_NAME)" $(GATLING_OPTIONS)
-
-# The following should probably not be used---it starts the job but under most shells
-# this process will not be listed by the `jobs` command. This makes it difficult
-# to kill the process when you want to end the load test
-gatling-music:
-	@/bin/sh -c 'CLUSTER_IP=$(INGRESS_IP) USERS=$(USERS) SIM_NAME=ReadMusicSim JAVA_HOME=$(JAVA_HOME) $(GAT) -rsf $(RES_DIR) -sf $(SIM_DIR) -bf $(GAT_DIR)/target/test-classes -s $(SIM_FULL_NAME) -rd "Simulation $(SIM_NAME)" $(GATLING_OPTIONS) $(GAT_SUFFIX)'
-
-# Different approach from gatling-music but the same problems. Probably do not use this.
-gatling-user:
-	@/bin/sh -c 'CLUSTER_IP=$(INGRESS_IP) USERS=$(USERS) SIM_NAME=ReadUserSim make -e -f k8s.mak run-gatling $(GAT_SUFFIX)'
-
 
 # ---------------------------------------------------------------------------------------
 # Handy bits for exploring the container images... not necessary
