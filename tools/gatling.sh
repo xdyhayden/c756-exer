@@ -6,6 +6,10 @@ set -o errexit
 if [[ $# -ne 2 ]]
 then
   echo "Usage: ${0} USER_COUNT SIM_NAME"
+  echo " Some available simulation names:"
+  echo "   ReadUserSim"
+  echo "   ReadMusicSim"
+  echo "   ReadBothVaryingSim"
   exit 1
 fi
 
