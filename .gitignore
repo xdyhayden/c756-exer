@@ -5,3 +5,4 @@ mk.mak
 gcp.mak
 allclouds.mak
 api.mak
+.DS_Store

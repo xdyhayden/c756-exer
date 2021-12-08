@@ -3,8 +3,8 @@ name: Test of Assignment 1
 on:
   push:
     paths:
-      - e-k8s/s2/standalone/app.py
-      - e-k8s/s2/test
+      - s2/standalone/app.py
+      - s2/test
       - .github/workflows/ci-a1.yml
 
 jobs:
@@ -15,36 +15,33 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Instantiate template files
-        # For A1, only need ZZ-REG-ID to instantiate e-k8s/s2/standalone/unique_code-tpl.py
+        # For A1, only need ZZ-REG-ID to instantiate s2/standalone/unique_code-tpl.py
         run: |
-          cd e-k8s
           sed -e "s/ZZ-REG-ID=.*/ZZ-REG-ID=${{ github.repository_owner }}/" cluster/tpl-vars-blank.txt > cluster/tpl-vars.txt
           make -f k8s-tpl.mak templates
-          cd ..
 
       - name: Build server
         run: |
-          cd e-k8s/s2/standalone/
+          cd s2/standalone/
           ./builda1.sh
-          cd ../../..
+          cd ../..
 
       - name: Build test client
         run: |
-          cd e-k8s/s2/test/
+          cd s2/test/
           make build-music_test
-          cd ../../..
+          cd ../..
 
       - name: Run server and test client
         # The success or failure of the job is determined by the
         # return code from this last step
         run: |
-          cd e-k8s
           export HWD=${PWD}
           cd s2/standalone
           ./runa1.sh --detached
-          cd ../../..
+          cd ../..
           # Give time for server to start up
           sleep 5
-          cd e-k8s/s2/test/
+          cd s2/test/
           # The actual test!
           make run-music_test
