@@ -89,7 +89,7 @@ Enter 'help' for command list.
             headers={'Authorization': DEFAULT_AUTH}
             )
         if r.status_code != 200:
-            print("Non-successfuls status code:", r.status_code)
+            print("Non-successful status code:", r.status_code)
         items = r.json()
         if 'Count' not in items:
             print("0 items returned")
@@ -153,7 +153,7 @@ Enter 'help' for command list.
             headers={'Authorization': DEFAULT_AUTH}
             )
         if r.status_code != 200:
-            print("Non-successfuls status code:", r.status_code)
+            print("Non-successful status code:", r.status_code)
 
     def do_quit(self, arg):
         """
@@ -171,7 +171,7 @@ Enter 'help' for command list.
             headers={'Authorization': DEFAULT_AUTH}
             )
         if r.status_code != 200:
-            print("Non-successfuls status code:", r.status_code)
+            print("Non-successful status code:", r.status_code)
 
     def do_shutdown(self, arg):
         """
@@ -183,7 +183,7 @@ Enter 'help' for command list.
             headers={'Authorization': DEFAULT_AUTH}
             )
         if r.status_code != 200:
-            print("Non-successfuls status code:", r.status_code)
+            print("Non-successful status code:", r.status_code)
 
 
 if __name__ == '__main__':
