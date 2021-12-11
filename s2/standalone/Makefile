@@ -20,6 +20,14 @@ run-s2-detached:
 run-s2-odd:
 	docker container run -it --rm -p 20000:30001 -v $(HOST_DIR)/odd:/data --name s2-odd s2-standalone:$(VER)
 
+# Build an S2 image with one copy of a file of random bytes
+build-s2-1-file:
+	docker image build -f s2-1-file-Dockerfile --build-arg EXERARG=$(VER) -t s2-1-file:$(VER) .
+
+# Build an S2 image with two copies of a file of random bytes
+build-s2-2-files:
+	docker image build -f s2-2-files-Dockerfile --build-arg EXERARG=$(VER) -t s2-2-files:$(VER) .
+
 # Build an entirely self-contained image of S2, including the music entries
 build-s2-self:
 	docker image build -f self-Dockerfile --build-arg EXERARG=$(VER) -t ghcr.io/tedkirkpatrick/s2-self-contained:$(VER) .

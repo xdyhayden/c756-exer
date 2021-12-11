@@ -7,3 +7,4 @@
 !requirements.txt
 !app.py
 !unique_code.py
+!gen-random-bytes.sh
