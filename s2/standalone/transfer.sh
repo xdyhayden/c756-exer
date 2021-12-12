@@ -20,7 +20,7 @@ set -o xtrace
 scp -i ${pem} requirements.txt ${userid}@${instance}:/home/${userid}/
 scp -i ${pem} Dockerfile       ${userid}@${instance}:/home/${userid}/
 scp -i ${pem} Makefile         ${userid}@${instance}:/home/${userid}/
-scp -i ${pem} app.py           ${userid}@${instance}:/home/${userid}/
+scp -i ${pem} app-a2.py        ${userid}@${instance}:/home/${userid}/
 scp -i ${pem} unique_code.py   ${userid}@${instance}:/home/${userid}/
 scp -i ${pem} music.csv        ${userid}@${instance}:/home/${userid}/
 scp -i ${pem} builda2.sh       ${userid}@${instance}:/home/${userid}/

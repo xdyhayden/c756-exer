@@ -16,7 +16,7 @@ EXPOSE 30001
 # This two-step approach is required by Dockerfile syntax:
 # Only ARGs can be specified on image build command line,
 # but only ENVs are placed in the image for app.py to read.
-ARG EXERARG=0.75
+ARG EXERARG=v0.75
 ENV EXER=${EXERARG}
 
 CMD ["python", "app.py", "30001"]

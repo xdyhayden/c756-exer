@@ -5,6 +5,6 @@
 # copied into the build context.
 *
 !requirements.txt
-!app.py
+!app-*.py
 !unique_code.py
 !gen-random-bytes.sh

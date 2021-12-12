@@ -3,7 +3,8 @@ name: Test of Assignment 1
 on:
   push:
     paths:
-      - s2/standalone/app.py
+      - s2/standalone/app-a1.py
+      - s2/standalone/unique_code-tpl.py
       - s2/test
       - .github/workflows/ci-a1.yml
 

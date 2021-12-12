@@ -4,7 +4,7 @@ VER=v0.25
 HOST_DIR=$(HWD)/s2/standalone
 
 build-s2:
-	docker image build -f Dockerfile --build-arg EXERARG=$(VER) -t s2-standalone:$(VER) .
+	docker image build -f Dockerfile --build-arg EXERARG=$(VER) --build-arg ASSIGN=$(ASSIGN) -t s2-standalone:$(VER) .
 
 run-s2:
 	docker container run -it --rm -p 30001:30001 -v $(HOST_DIR):/data --name s2 s2-standalone:$(VER)
@@ -22,12 +22,12 @@ run-s2-odd:
 
 # Build an S2 image with one copy of a file of random bytes
 build-s2-1-file:
-	docker image build -f s2-1-file-Dockerfile --build-arg EXERARG=$(VER) -t s2-1-file:$(VER) .
+	docker image build -f s2-1-file-Dockerfile --build-arg EXERARG=$(VER) --build-arg ASSIGN=$(ASSIGN) -t s2-1-file:$(VER) .
 
 # Build an S2 image with two copies of a file of random bytes
 build-s2-2-files:
-	docker image build -f s2-2-files-Dockerfile --build-arg EXERARG=$(VER) -t s2-2-files:$(VER) .
+	docker image build -f s2-2-files-Dockerfile --build-arg EXERARG=$(VER) --build-arg ASSIGN=$(ASSIGN) -t s2-2-files:$(VER) .
 
 # Build an entirely self-contained image of S2, including the music entries
 build-s2-self:
-	docker image build -f self-Dockerfile --build-arg EXERARG=$(VER) -t ghcr.io/tedkirkpatrick/s2-self-contained:$(VER) .
+	docker image build -f self-Dockerfile --build-arg EXERARG=$(VER) --build-arg ASSIGN=$(ASSIGN) -t s2-self-contained:$(VER) .

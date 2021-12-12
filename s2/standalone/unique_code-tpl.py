@@ -5,6 +5,14 @@ Return a unique hex hash for use in testing.
 # Standard libraries
 import hashlib
 
+
+def _compute_hash(userid, ex_string):
+    h = hashlib.sha256()
+    h.update(userid.encode('UTF-8'))
+    h.update(ex_string.encode('UTF-8'))
+    return h.hexdigest()
+
+
 def exercise_hash(ex_string):
     """
     Return a unique hex hash for this student and exercise.
@@ -16,16 +24,15 @@ def exercise_hash(ex_string):
     
     Template variable
     -----------------
-    ZZ-REG-ID: string
-        A userid for the container registry used in this course
-        (typically ghcr.io).
+    ZZ\-REG\-ID: string
+        A userid for the container registry (typically GHCR)
+        used in this course.
+        NOTE: The actual template variable name does not include '\'
+        characters.
     
     Returns
     -------
     string
         A unique hex string, generated from the two parameters.
     """
-    h = hashlib.sha256()
-    h.update('ZZ-REG-ID'.encode('UTF-8'))
-    h.update(ex_string.encode('UTF-8'))
-    return h.hexdigest()
+    return _compute_hash('ZZ-REG-ID', ex_string)
