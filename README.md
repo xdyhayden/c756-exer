@@ -10,6 +10,8 @@ You will find resources for your exercises and term project here.
 
 ![Assignment 2 CI](https://github.com/scp756-221/c756-exer/actions/workflows/ci-a2.yml/badge.svg)
 
+![Assignment 3 CI](https://github.com/scp756-221/c756-exer/actions/workflows/ci-a3.yml/badge.svg)
+
 ## Creating a fresh project
 
 To create a fresh system that does not rely on any previous code:
