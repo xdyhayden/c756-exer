@@ -39,7 +39,7 @@ jobs:
         run: |
           export HWD=${PWD}
           cd s2/standalone
-          ./runa2.sh --detached
+          ./runa2.sh --detached ${HWD}/s2/standalone
           cd ../..
           # Give time for server to start up
           sleep 5
