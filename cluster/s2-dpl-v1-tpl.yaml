@@ -37,6 +37,9 @@ spec:
       - name: cmpt756s2
         image: ZZ-CR-ID/ZZ-REG-ID/cmpt756s2:v1
         imagePullPolicy: Always
+        env:
+          - name: EXER
+            value: v1
         ports:
         - containerPort: 30001
         livenessProbe:
