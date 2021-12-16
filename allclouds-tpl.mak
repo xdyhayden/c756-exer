@@ -9,16 +9,15 @@
 ls:
 	@make -f k8s.mak showcontext --no-print-directory
 	@echo
-	@echo "Azure (az.mak):"
-	@make -f az.mak lsnc --no-print-directory
-	@echo
 	@echo "AWS (eks.mak):"
 	@make -f eks.mak lscl --no-print-directory
 	@echo
-	@# We do not support GCP from this container
-	@#echo "GCP (gcp.mak):"
-	@#make -f gcp.mak lsnc --no-print-directory
-	@#echo
+	@echo "Azure (az.mak):"
+	@tools/run-if-cmd-exists.sh az -f az.mak lsnc --no-print-directory
+	@echo
+	@echo "GCP (gcp.mak):"
+	@tools/run-if-cmd-exists.sh gcloud -f gcp.mak lsnc --no-print-directory
+	@echo
 	@echo "DynamoDB tables, read units, and write units"
 	@make -f k8s.mak ls-tables --no-print-directory
 	@echo
