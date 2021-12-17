@@ -6,9 +6,9 @@
 #
 set -o nounset
 set -o errexit
-if [[ $# -lt 6 ]]
+if [[ $# -ne 6 ]]
 then
-  echo "call-sed.sh must have at least six arguments"
+  echo "call-sed.sh must have six arguments"
   exit 1
 fi
 #

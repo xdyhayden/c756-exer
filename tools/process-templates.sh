@@ -24,10 +24,8 @@ check_command 'aws'
 grep -v '^#' ./cluster/tpl-vars.txt > ./cluster/tpl-nocomments.txt
 #
 # Step 2: Convert the files
-# The trailing '' is to compensate for the case where ZZ-AWS-SESSION-TOKEN is empty
-# because the user is running DynamoDB under a regular AWS ID.
 #
-find . -name '*-tpl.*' -exec ./tools/call-sed.sh '{}' $(cut -f 2 -d= ./cluster/tpl-nocomments.txt) '' \;
+find . -name '*-tpl.*' -exec ./tools/call-sed.sh '{}' $(cut -f 2 -d= ./cluster/tpl-nocomments.txt) \;
 #
 # Step 3: Cleanup
 #
