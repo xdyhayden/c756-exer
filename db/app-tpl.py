@@ -45,11 +45,24 @@ secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
 # Must be presented to authorize call to `/load`
 loader_token = os.getenv('SVC_LOADER_TOKEN')
 
-dynamodb = boto3.resource(
-    'dynamodb',
-    region_name=region,
-    aws_access_key_id=access_key,
-    aws_secret_access_key=secret_access_key)
+# In some testing contexts, we pass in the DynamoDB URL
+dynamodb_url = os.getenv('DYNAMODB_URL', '')
+
+if dynamodb_url == '':
+    dynamodb = boto3.resource(
+        'dynamodb',
+        region_name=region,
+        aws_access_key_id=access_key,
+        aws_secret_access_key=secret_access_key)
+else:
+    # See
+    # https://stackoverflow.com/questions/31948742/localhost-endpoint-to-dynamodb-local-with-boto3
+    dynamodb = boto3.resource(
+        'dynamodb',
+        endpoint_url=dynamodb_url,
+        region_name=region,
+        aws_access_key_id=access_key,
+        aws_secret_access_key=secret_access_key)
 
 
 # Change the implementation of this: you should probably have a separate
