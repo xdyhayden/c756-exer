@@ -24,7 +24,7 @@ class Music():
     def __init__(self, url, auth):
         self._url = url
         self._auth = auth
-    
+
     def create(self, artist, song):
         """Create an artist, song pair.
 
@@ -44,7 +44,7 @@ class Music():
         r = requests.post(
             self._url,
             json={'Artist': artist,
-                 'SongTitle': song},
+                  'SongTitle': song},
             headers={'Authorization': self._auth}
         )
         return r.status_code, r.json()['music_id']
@@ -59,19 +59,24 @@ class Music():
 
         Returns
         -------
-        number
+        status, artist, title
+
+        status: number
             The HTTP status code returned by Music.
-        
-        Notes
-        -----
-        This routine should return the song title and artist in
-        addition to the status code.
+        artist: If status is 200, the artist performing the song.
+          If status is not 200, None.
+        title: If status is 200, the title of the song.
+          If status is not 200, None.
         """
         r = requests.get(
             self._url + m_id,
             headers={'Authorization': self._auth}
             )
-        return r.status_code
+        if r.status_code != 200:
+            return r.status_code, None, None
+
+        item = r.json()['Items'][0]
+        return r.status_code, item['Artist'], item['SongTitle']
 
     def delete(self, m_id):
         """Delete an artist, song pair.

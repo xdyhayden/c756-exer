@@ -82,12 +82,16 @@ def setup(args):
 
 def run_test(args):
     mserv = music.Music(args.music_url, DUMMY_AUTH)
-    trc, m_id = mserv.create(
-        'Mary Chapin Carpenter', 'John Doe No. 24')
+    artist, song = ('Mary Chapin Carpenter', 'John Doe No. 24')
+    trc, m_id = mserv.create(artist, song)
     if trc != 200:
         sys.exit(1)
-    trc = mserv.read(m_id)
-    mserv.delete(m_id)
+    trc, ra, rs = mserv.read(m_id)
+    if trc == 200:
+        if artist != ra or song != rs:
+            # Fake HTTP code to indicate error
+            trc = 601
+        mserv.delete(m_id)
     return trc
 
 
