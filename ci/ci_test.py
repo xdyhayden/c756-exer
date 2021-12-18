@@ -12,10 +12,10 @@ import os
 import sys
 
 # Installed packages
-import requests
 
 # Local modules
 import create_tables
+import music
 
 # The services check only that we pass an authorization,
 # not whether it's valid
@@ -59,33 +59,6 @@ def parse_args():
     return args
 
 
-def music_create(args, artist, song):
-    r = requests.post(
-        args.music_url,
-        json={'Artist': artist,
-              'SongTitle': song},
-        headers={'Authorization': DUMMY_AUTH}
-        )
-    return r.status_code, r.json()['music_id']
-
-
-def music_read(args, m_id):
-    r = requests.get(
-        args.music_url + m_id,
-        headers={'Authorization': DUMMY_AUTH}
-        )
-    return r.status_code
-
-
-def music_delete(args, m_id):
-    _ = requests.delete(
-        args.music_url + m_id,
-        headers={'Authorization': DUMMY_AUTH}
-        )
-    # Music delete does not return a status code
-    return 200
-
-
 def get_env_vars(args):
     # These are required to be present
     args.dynamodb_region = os.getenv('AWS_REGION')
@@ -108,12 +81,13 @@ def setup(args):
 
 
 def run_test(args):
-    trc, m_id = music_create(
-        args, 'Mary Chapin Carpenter', 'John Doe No. 24')
+    mserv = music.Music(args.music_url, DUMMY_AUTH)
+    trc, m_id = mserv.create(
+        'Mary Chapin Carpenter', 'John Doe No. 24')
     if trc != 200:
         sys.exit(1)
-    trc = music_read(args, m_id)
-    music_delete(args, m_id)
+    trc = mserv.read(m_id)
+    mserv.delete(m_id)
     return trc
 
 
