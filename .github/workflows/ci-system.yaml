@@ -3,10 +3,10 @@ name: Continuous Integration test of all services
 on:
   push:
     paths:
-      - db
-      - s1
-      - s2/v1
-      - ci
+      - db/*
+      - s1/*
+      - s2/v1/*
+      - ci/*
       - .github/workflows/ci-system.yml
 
 jobs:
