@@ -21,3 +21,17 @@ out=${1/-tpl/}
 # They do not restrict the Secret Access Key in any way but various sites on the Web suggest that it is only alphanumeric+slash+plus
 # So it should be delimitable by '|'
 sed -e "s|ZZ-CR-ID|${2}|g" -e "s|ZZ-REG-ID|${3}|g" -e "s|ZZ-AWS-REGION|${4}|g" -e "s|ZZ-AWS-ACCESS-KEY-ID|${5}|g" -e "s|ZZ-AWS-SECRET-ACCESS-KEY|${6}|g" ${1} > ${out}
+# If source file is executable, output should be, too.
+# BUT in a container, `test -x` doesn't work correctly some times, such
+# as when Host OS is macOS. So use this clumsy alternative, which works (sigh)
+function is_executable () {
+  user_perms=$(ls -l ${1})
+  if [[ "${user_perms:3:1}" == x ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+if is_executable ${1}; then
+  chmod +x ${out}
+fi
