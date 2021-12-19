@@ -1,5 +1,5 @@
 """
-Perform requests to the music service.
+Python  API for the music service.
 """
 
 # Standard library modules
@@ -9,7 +9,10 @@ import requests
 
 
 class Music():
-    """Perform requests to the music service.
+    """Python API for the music service.
+
+    Handles the details of formatting HTTP requests and decoding
+    the results.
 
     Parameters
     ----------

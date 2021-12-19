@@ -23,6 +23,14 @@ DUMMY_AUTH = 'Bearer A'
 
 
 def parse_args():
+    """Parse the command-line arguments.
+
+    Returns
+    -------
+    namespace
+        A namespace of all the arguments, augmented with names
+        'user_url' and 'music_url'.
+    """
     argp = argparse.ArgumentParser(
         'ci_test',
         description='Integration test of CMPT 756 sample application'
@@ -60,6 +68,33 @@ def parse_args():
 
 
 def get_env_vars(args):
+    """Augment the arguments with environment variable values.
+
+    Parameters
+    ----------
+    args: namespace
+        The command-line argument values.
+
+    Environment variables
+    ---------------------
+    AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY,
+        SVC_LOADER_TOKEN, DYNAMODB_URL: string
+        Environment variables specifying these AWS access parameters.
+
+    Modifies
+    -------
+    args
+        The args namespace augmented with the following names:
+        dynamodb_region, access_key_id, secret_access_key, loader_token,
+        dynamodb_url
+
+        These names contain the string values passed in the corresponding
+        environment variables.
+
+    Returns
+    -------
+    Nothing
+    """
     # These are required to be present
     args.dynamodb_region = os.getenv('AWS_REGION')
     args.access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
@@ -69,7 +104,14 @@ def get_env_vars(args):
 
 
 def setup(args):
-    get_env_vars(args)
+    """Create the DynamoDB tables.
+
+    Parameters
+    ----------
+    args: namespace
+        The arguments specifying the tables. Uses dynamodb_url,
+        dynamodb_region, access_key_id, secret_access_key, table_suffix.
+    """
     create_tables.create_tables(
         args.dynamodb_url,
         args.dynamodb_region,
@@ -81,6 +123,29 @@ def setup(args):
 
 
 def run_test(args):
+    """Run the tests.
+
+    Parameters
+    ----------
+    args: namespace
+        The arguments for the test. Uses music_url.
+
+    Prerequisites
+    -------------
+    The DyamoDB tables must already exist.
+
+    Returns
+    -------
+    number
+        An HTTP status code representing the test result.
+        Some "pseudo-HTTP" codes are defined in the 600 range
+        to indicate conditions that are not included in the HTTP
+        specification.
+
+    Notes
+    -----
+    This test is highly incomplete and needs substantial extension.
+    """
     mserv = music.Music(args.music_url, DUMMY_AUTH)
     artist, song = ('Mary Chapin Carpenter', 'John Doe No. 24')
     trc, m_id = mserv.create(artist, song)
@@ -97,6 +162,7 @@ def run_test(args):
 
 if __name__ == '__main__':
     args = parse_args()
+    get_env_vars(args)
     setup(args)
     trc = run_test(args)
     if trc != 200:
