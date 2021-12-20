@@ -47,7 +47,7 @@ NUM_NODES=3 # This was default for Google's "My First Cluster"
 #
 ZONE=us-west1-c
 REL_CHAN=rapid
-KVER=1.19.3
+KVER=1.21
 
 start:	showcontext
 	date | tee  $(LOG_DIR)/gcp-start.log
