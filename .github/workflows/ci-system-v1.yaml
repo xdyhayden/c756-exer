@@ -1,4 +1,4 @@
-name: Continuous Integration test of all services
+name: Continuous Integration test of whole system
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - db/*
       - s1/*
       - s2/v1/*
-      - ci/*
-      - .github/workflows/ci-system.yaml
+      - ci/v1/*
+      - .github/workflows/ci-system-v1.yaml
 
 jobs:
   build:
@@ -25,4 +25,4 @@ jobs:
       - name: Run CI test
         run: |
           cd ci
-          ./runci.sh
+          ./runci.sh v1

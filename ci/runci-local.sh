@@ -10,6 +10,20 @@
 # speed up the process.
 set -o nounset
 set -o errexit
+
+if [[ $# -gt 1 ]]; then
+  echo "Usage: ${0} [VERSION]"
+  echo "Run the continuous integration tests"
+  echo
+  echo "  VERSION the version subdirectory of the test code (v1, ...)"
+  echo "  default: v1"
+  exit 1
+elif [[ $# -eq 1 ]]; then
+  ver="${1}"
+else
+  ver=v1
+fi
+
 ./clear-ci-images.sh
-./runci.sh
+./runci.sh ${ver}
 
