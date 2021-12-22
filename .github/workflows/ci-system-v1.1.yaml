@@ -1,0 +1,28 @@
+name: Continuous Integration test of whole system
+
+on:
+  push:
+    paths:
+      - db/*
+      - s1/*
+      - s2/v1.1/*
+      - ci/v1.1/*
+      - .github/workflows/ci-system-v1.1.yaml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Instantiate template files
+        # For CI, only need ZZ-REG-ID to instantiate s2/standalone/unique_code-tpl.py
+        run: |
+          sed -e "s/ZZ-REG-ID=.*/ZZ-REG-ID=${{ github.repository_owner }}/" cluster/tpl-vars-blank.txt > cluster/tpl-vars.txt
+          make -f k8s-tpl.mak templates
+
+      - name: Run CI test
+        run: |
+          cd ci
+          ./runci.sh v1.1

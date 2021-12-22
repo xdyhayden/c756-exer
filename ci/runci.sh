@@ -26,7 +26,9 @@ if [[ ! -d ${ver} ]]; then
 fi
 
 set -o xtrace
-docker-compose -f ${ver}/compose.yaml up --abort-on-container-exit --exit-code-from test
+# Turn off errexit so we continue even if CI test returns failure
+set +o errexit
+docker-compose -f ${ver}/compose.yaml up --build --abort-on-container-exit --exit-code-from test
 # Return code from 'up' is the test result
 trc=$?
 # Shutdown and delete all the containers before returning
