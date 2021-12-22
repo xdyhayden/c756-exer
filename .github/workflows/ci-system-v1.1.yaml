@@ -38,6 +38,4 @@ jobs:
       - name: Run CI test
         run: |
           cd ci
-          # Debug to see what version we're getting
-          ../tools/docker-compose-v2 version
           COMPOSE_PATH=../tools/docker-compose-v2 ./runci.sh v1.1
