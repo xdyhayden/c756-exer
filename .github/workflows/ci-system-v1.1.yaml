@@ -26,5 +26,5 @@ jobs:
         run: |
           cd ci
           # Debug to see what version we're getting
-          docker-compose version
+          docker-compose-v2 version
           ./runci.sh v1.1
