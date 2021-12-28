@@ -33,6 +33,24 @@ fi
 
 COMP=${COMPOSE_PATH:-docker-compose}
 
+# First, a syntax, style, and poor usage check
+# Nonconforming code will cause a CI fail
+#
+# Turn off errexit so we can give a better message on fail
+set +o errexit
+echo
+echo "Checking flake8 conformance ..."
+flake8 $(cat ${ver}/flake-dirs.txt)
+if [[ $? -eq 0 ]]; then
+  echo
+  echo "Code conforms."
+else
+  echo
+  echo "Code does not conform---CI fails."
+  exit 1
+fi
+set -o errexit
+
 set -o xtrace
 # Turn off errexit so we continue even if CI test returns failure
 set +o errexit
