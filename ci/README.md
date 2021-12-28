@@ -1,31 +1,30 @@
 # Continuous integration framework
 
-This directory contains the continuous integration (CI) framework. It includes the files used by GitHub Actions to accomplish CI, as well as other files useful for locally running CI tests.
+This directory contains the continuous integration (CI) framework. It includes the files used by GitHub Actions to accomplish CI, the files defining different versions of the tests, as well as other files useful for locally running CI tests.
 
 ## Automated CI
 
-The automatic CI is defined by the following GitHub Action:
+The automatic CI is defined by the following GitHub Action files:
 
-* `../.github/workflows/ci-system.yaml`: GitHub Action Specification of systemic CI using a local DynamoDB.
+* `../.github/workflows/ci-system-v*.yaml`: GitHub Action Specification of systemic CI using a local DynamoDB for a given version.
 
 The top level of the CI is run by:
 
-* `runci.sh`: The script calling `docker-compose` to spin up the instances of the S1, S2, DB, and test services, together with a local copy of DynamodB.
-* `compose.yaml`: The `docker-compose` input specifying the services.  **Do not directly modify this file---see "Templated files" below.**
+* `runci.sh`: The script calling `docker-compose` to spin up the instances of the S1, S2, DB, and test services, together with a local copy of DynamodB. It takes an optional argument, specifying the subdirectory defining the test to run.  The default value of this argument is `v1`.  **If you want to run a test locally, you probably want to use `runci-local.sh`, described below.**
 
-The test service is defined in this directory by the following files:
+### Versioning the tests
 
+The tests are defined in subdirectories, one for each version. Amongst other files, each version subdirectory contains:
+
+* `compose-tpl.yaml`: Specification of the service configuration to run; templated file&mdash;see below.
 * `Dockerfile`: Container specification.
 * `requirements.txt`: List of Python packages to include.
-* `ci_test.py`: Top level of the test.
-* `create_tables.py`: Create the DynamoDB tables.
-* `music.py`: Python interface to the music service. Definition of a corresponding `user.py` for the user service is left as an exercise.
+* `conftest.py`: `pytest` test fixtures that to be shared across all test files.
+* `test_*.py`: Test files. Any file with this prefix is a `pytest` test file and will be run in the test.
+* `create_tables.py`: Library to create the DynamoDB tables.
+* `music.py`: Python client library for the music service. Definition of a corresponding `user.py` for the user service is left as an exercise.
 
-The three application services, S1, S2, and DB, are defined in their respective directories.  The V1 version of S2 is used.
-
-### Versioning the services
-
-The `ci-system.yaml` action specifies the V1 version of S2. If the other services are versioned or a different version of S2 is used, a new action must be defined in the `../.github/workflows` directory.
+The three application services, S1, S2, and DB, are defined in their respective directories. The appropriate directories are specified in `compose-tpl.yaml`.
 
 ## Running CI locally
 
@@ -35,9 +34,9 @@ A simple script, `runci-local.sh`, is provided. Use this script to test changes 
 
 When running CI tests locally, whether by `runci.sh` or `runch-local.sh` (or any script that uses `compose.yaml`), the following image names are created:
 
-* `ci_cmpt756db:latest`
-* `ci_cmpt756s2:latest`
-* `ci_cmpt756s1:latest`
+* `ci_db:latest`
+* `ci_s1:latest`
+* `ci_s2:latest`
 * `ci_test:latest`
 
 You will probably want to remove these (via `docker image rm`) once you are done.
