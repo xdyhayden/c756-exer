@@ -29,6 +29,12 @@ jobs:
              -o tools/docker-compose-v2
           chmod +x tools/docker-compose-v2
 
+      - name: Install flake8
+        # Specify the precise Flake8 version so that we get exactly the same tests as locally
+        # This version must match the one specified in `scp756-221/tool-container/Dockerfile`
+        run: |
+          pip install flake8==4.0.1
+
       - name: Instantiate template files
         # For CI, only need ZZ-REG-ID to instantiate s2/standalone/unique_code-tpl.py
         run: |
