@@ -140,7 +140,7 @@ def read_orig_artist(music_id):
         }
         return app.make_response((response, 404))
     item = response.json()['Items'][0]
-    oa = (item['orig_artist'] if  'orig_artist' in item
+    oa = (item['orig_artist'] if 'orig_artist' in item
           else None)
     return {'orig_artist': oa}
 

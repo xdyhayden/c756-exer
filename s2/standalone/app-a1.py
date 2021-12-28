@@ -122,14 +122,15 @@ def delete_song(music_id):
 @bp.route('/test', methods=['GET'])
 def test():
     # This value is for user scp756-221
-    if '1e0715252b48ed14858ae1ce646d67195183ffb8f9dc02d73c82323d8d75f482' != ucode:
+    if ('1e0715252b48ed14858ae1ce646d67195183ffb8f9dc02d73c82323d8d75f482' !=
+            ucode):
         raise Exception("Test failed")
     return {}
 
 
 @bp.route('/shutdown', methods=['GET'])
 def shutdown():
-    # From https://stackoverflow.com/questions/15562446/how-to-stop-flask-application-without-using-ctrl-c
+    # From https://stackoverflow.com/questions/15562446/how-to-stop-flask-application-without-using-ctrl-c # noqa: E501
     func = request.environ.get('werkzeug.server.shutdown')
     if func is None:
         raise RuntimeError('Not running with the Werkzeug Server')

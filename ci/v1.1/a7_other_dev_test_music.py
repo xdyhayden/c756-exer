@@ -36,4 +36,3 @@ def test_simple_run(mserv, song):
             and oa == orig_artist)
     mserv.delete(m_id)
     # No status to check
-

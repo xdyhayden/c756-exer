@@ -21,15 +21,15 @@ def exercise_hash(ex_string):
     ----------
     ex_string: string
         A string identifying this exercise.
-    
+
     Template variable
     -----------------
-    ZZ\-REG\-ID: string
+    ZZ--REG--ID: string
         A userid for the container registry (typically GHCR)
         used in this course.
-        NOTE: The actual template variable name does not include '\'
+        NOTE: The actual template variable name uses only single '-'
         characters.
-    
+
     Returns
     -------
     string

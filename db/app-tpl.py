@@ -69,7 +69,7 @@ else:
 # driver class for interfacing with a db like dynamodb in a different file.
 @bp.route('/update', methods=['PUT'])
 def update():
-    headers = request.headers
+    headers = request.headers  # noqa: F841
     # check header here
     content = request.get_json()
     objtype = urllib.parse.unquote_plus(request.args.get('objtype'))
@@ -93,7 +93,7 @@ def update():
 
 @bp.route('/read', methods=['GET'])
 def read():
-    headers = request.headers
+    headers = request.headers  # noqa: F841
     # check header here
     objtype = urllib.parse.unquote_plus(request.args.get('objtype'))
     objkey = urllib.parse.unquote_plus(request.args.get('objkey'))
@@ -107,7 +107,7 @@ def read():
 
 @bp.route('/write', methods=['POST'])
 def write():
-    headers = request.headers
+    headers = request.headers  # noqa: F841
     # check header here
     content = request.get_json()
     table_name = content['objtype'].capitalize()+"-ZZ-REG-ID"
@@ -190,7 +190,7 @@ def load():
 
 @bp.route('/delete', methods=['DELETE'])
 def delete():
-    headers = request.headers
+    headers = request.headers  # noqa: F841
     # check header here
     objtype = urllib.parse.unquote_plus(request.args.get('objtype'))
     objkey = urllib.parse.unquote_plus(request.args.get('objkey'))

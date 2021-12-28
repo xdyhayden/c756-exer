@@ -5,7 +5,6 @@ Loader for sample database
 
 # Standard library modules
 import csv
-import json
 import os
 import time
 
@@ -20,7 +19,7 @@ loader_token = os.getenv('SVC_LOADER_TOKEN')
 # This is only needed if the loader is run with
 # Istio injection.  `cluster/loader-tpl.yaml`
 # sets that value.
-INITIAL_WAIT_SEC=1
+INITIAL_WAIT_SEC = 1
 
 db = {
     "name": "http://cmpt756db:30002/api/v1/datastore",
@@ -83,7 +82,7 @@ if __name__ == '__main__':
 
     with open('{}/users/users.csv'.format(resource_dir), 'r') as inp:
         rdr = csv.reader(inp)
-        next(rdr) # Skip header
+        next(rdr)  # Skip header
         for fn, ln, email, uuid in rdr:
             resp = create_user(fn.strip(),
                                ln.strip(),
@@ -98,7 +97,7 @@ if __name__ == '__main__':
 
     with open('{}/music/music.csv'.format(resource_dir), 'r') as inp:
         rdr = csv.reader(inp)
-        next(rdr) # Skip header
+        next(rdr)  # Skip header
         for artist, title, uuid in rdr:
             resp = create_song(artist.strip(),
                                title.strip(),
