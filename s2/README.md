@@ -18,6 +18,8 @@ v1: A version that relies upon the DB service to store its
   the "bug" version in Assignment 4, using the "bug"
   described for "standalone" above.
 
+v1.1: A version specifically for Assignment&nbsp;7.  See the `README.md` in the subdirectory and the assignment description for further details.
+
 v2: This version is configurable to return errors for a specified
   percentage (`PERCENT_ERROR`) of calls to `read`. It does not
   include the "bug" in in Assignment 4.  The `test` call
@@ -29,5 +31,5 @@ v2: This version is configurable to return errors for a specified
   up the services for such a deployment.
 
 test: A special test frontend.  Used in the continuous
-  integration tests. May also be used for local unit
+  integration tests for early assignments. May also be used for local unit
   testing.
