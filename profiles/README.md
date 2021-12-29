@@ -10,7 +10,7 @@ Use this directory to define aliases for bash and Git, by creating the following
 
 * `gitconfig`: Configuration for Git. Includes your name, email, and any Git aliases. Note that
   some Git configuration parameters that you might have set in your host OS (Windows or macOS) may need to be
-  set differently or not included at all in this version if they do not make sense in a
+  set differently or not included at all in this file if they do not make sense in a
   Linux container.  For example, any `credential` entry should probably not be included in
   this file.  You will probably also want to use a different `core.editor` entry.
 
