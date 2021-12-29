@@ -15,7 +15,7 @@ Before using this directory, you must have instantiated all
 template files by executing the following in the tools container:
 
 ~~~bash
-/home/k8s# make -f k8s-tpl templates
+/home/k8s# make -f k8s-tpl.mak templates
 ~~~
 
 You probably have already done this in Assignment&nbsp;1 (though it can't hurt to do it again to be sure).
