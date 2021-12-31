@@ -1,4 +1,4 @@
-name: Continuous Integration test of whole system
+name: CI test of v1 music 
 
 on:
   push:
