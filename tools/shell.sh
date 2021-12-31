@@ -8,7 +8,7 @@ then
   VER=${1}
 else
   # Let registry select the appropriate architecture
-  VER=v1.0beta2
+  VER=v1.0
 fi
 CREG=${CREG:-ghcr.io}
 REGID=${REGID:-scp756-221}
