@@ -1,6 +1,6 @@
 [user]
-#	name = 
-#	email = 
+	name = Ted Kirkpatrick
+	email = ted@sfu.ca
 [alias]
 	l = log --name-status --decorate --abbrev-commit
 	st = status --short

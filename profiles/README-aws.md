@@ -74,9 +74,11 @@ epkg <package-name>
 
 A partial list of the available packages for x86 machines:
 
-* `gpu`: An mid-sized EC2 x86 instance with an attached GPU.
-* `gpu_small`: A smaller EC2 x86 instance with an attached GPU.
-* default: A small EC2 x86 instance eligible for the AWS Free Tier. You specify the default via either of `epkg ''` or `erun`.
+* `gpu`: A mid-sized EC2 x86 instance with an attached GPU. Sign on with userid `ec2-user`.
+* `gpu_small`: A smaller EC2 x86 instance with an attached GPU. Sign on with userid `ec2-user`.
+* `gpu_big`: A larger EC2 x86 instance with an attached GPU. Sign on with userid `ec2-user`.
+* `gpu_very_big`: A much larger EC2 x86 instance with an attached GPU. Sign on with userid `ec2-user`.
+* default: A small EC2 x86 instance eligible for the AWS Free Tier. You specify the default via either of `epkg ''` or `erun`. Sign on with userid `ubuntu`.
 
 Run a package specifying an ARM instance via the command:
 
@@ -86,9 +88,42 @@ armpkg <package-name>
 
 A partial list of the available instances for ARM machines:
 
-* `gpu`: An mid-sized EC2 ARM instance with an attached GPU.
-* `gpu_small`: A smaller EC2 ARM instance with an attached GPU.
-* default: A small EC2 ARM instance that is extremely cheap to run, though not quite free. You specify the default via either of `armpkg ''` or `armrun`.
+* `gpu`: A mid-sized EC2 ARM instance with an attached GPU. Sign on with userid `ubuntu`.
+* `gpu_small`: A smaller EC2 ARM instance with an attached GPU. Sign on with userid `ubuntu`.
+* `gpu_big`: A larger EC2 ARMinstance with an attached GPU. Sign on with userid `ubuntu`.
+* `gpu_very_big`: A much larger EC2 ARM instance with *two* attached GPUs. Sign on with userid `ubuntu`.
+* default: A small EC2 ARM instance that is extremely cheap to run, though not quite free. You specify the default via either of `armpkg ''` or `armrun`. Sign on with userid `ubuntu`.
+
+## Adding the tag to an instance's prompt
+
+* `esn NAME USERID`: Add `NAME` to the command-line prompt of the instance tagged
+   with `NAME`, where `NAME` is
+   an adjective_name pair such as `joyous_allen`.  Specify the `USERID` required by the AMI loaded into the instance, typically `ubuntu` (for an Ubuntu-based image) or `ec2-user` (for an Amazon Linux 2 image).  This is annoying but there is no easy way around this.
+
+   This command should be run 1&ndash;2 minutes after starting an instance, allowing enough time for it to fully start up.
+
+## Signing on to an instance
+
+Only sign on to an instance after running `esn`, to ensure that your prompt line identifies the instance your are signed in to.
+
+* `essh`: Sign on to the most-recently-started x86 instance.
+* `armssh`: Sign on to the most-recently-started ARM instance.
+* `esshn NAME USERID`: Sign on to instance tagged `NAME` (either x86 or ARM),
+   with userid `USERID`.
+
+## Listing instances
+
+* `eps`: List all instances and their status.  The output will include
+  recently-terminated instances.
+
+## Terminating instances
+
+There are several commands to terminate one or more instances:
+
+* `epurge`: Terminate all running EC2 instances.
+* `ekill`: Terminate the most-recently-started x86 instance.
+* `armkill`: Terminate the most-recently-started ARM instance.
+* `ekn NAME`: Terminate the instance (either x86 or ARM) tagged with `NAME`.
 
 ## Redefining the default package
 
@@ -98,8 +133,10 @@ Then run the new default via `erun` (for x86 instances) or `armrun` (for ARM ins
 
 ## Uninstall
 
-Source the corresponding ``-off`` to turn off the aliases.
+In the host OS, to turn off the aliases, source ``.aws-off``:
 
 ```bash
 $ source ~/.aws-off
 ```
+
+In the tools container, to turn off the aliases, simply exit the container and start a fresh copy.

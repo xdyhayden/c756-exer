@@ -123,15 +123,26 @@ M6C2M8_ARM=m6g.large
 GPU_GRAPHICS_2X=g4ad.2xlarge
 
 # Use NVIDIA GPUs for Machine Learning (ML) applications
+# https://aws.amazon.com/ec2/instance-types/g4/
 
 # g4dn.xlarge = 4 vCPUs; 2 Cores; x86_64 Intel Cascade Lake CPU; 16GB; Nvidia T4 w/16GB; up to 25 Gb networking
 # USD 0.526/hr in us-west-2
 # USD 0.584/hr in ca-central-1
 GPU_ML_X=g4dn.xlarge
+
 # g4dn.2xlarge = 8 vCPUs; 4 Cores; x86_64 Intel Cascade Lake CPU; 32GB; Nvidia T4 w/16GB; up to 25 Gb networking
 # USD 0.752/hr in us-west-2
 # USD 0.835/hr in ca-central-1
 GPU_ML_2X=g4dn.2xlarge
+
+# g4dn.4xlarge = 16 vCPUs; 8 Cores; x86_64 Intel Cascade Lake CPU; 64GB; Nvidia T4 w/16GB; up to 25 Gb networking
+# USD 1.204/hr in us-west-2
+# USD 1.337/hr in ca-central-1
+GPU_ML_4X=g4dn.4xlarge
+
+# g4dn.8xlarge = 32 vCPUs; 16 Cores; x86_64 Intel Cascade Lake CPU; 128GB; Nvidia T4 w ; up to 50 Gb networking
+# USD 2.416/hr in us-west-2
+GPU_ML_8X=g4dn.8xlarge
 
 #==============================
 # ARM-based GPU instances
@@ -149,6 +160,10 @@ GPU_ML_4X_ARM=g5g.4xlarge
 # g5g.8xlarge = 32 vCPUs; Graviton 2; 64 GiB; Nvidia T4G Tensor Core w/16GB; Up to 12 Gb networking
 # USD 1.372/hr in us-west-2
 GPU_ML_8X_ARM=g5g.8xlarge
+
+# g5g.16xlarge = 64 vCPUs; Graviton 2; 128 GiB; 2 Nvidia T4G Tensor Cores, each w/16GB; Up to 25 Gb networking
+# USD 2.744/hr in us-west-2
+GPU_ML_16X_ARM=g5g.16xlarge
 
 #==============================
 # Habana-based special-purpose machine learning processors
@@ -226,7 +241,8 @@ PKG=
 
 ifeq ($(PKG),gpu)
 
-# More expensive GPU with Python-based AMI
+# Mid-tier GPU with Python-based AMI
+# USD 0.752/hr in us-west-2
 INSTANCE=$(GPU_ML_2X)
 IMAGE=$(AMI_AMAZON_LINUX_ML)
 SSH_USER=$(AMAZON_USER)
@@ -234,7 +250,24 @@ SSH_USER=$(AMAZON_USER)
 else ifeq ($(PKG),gpu_small)
 
 # Cheaper GPU with Python-based AMI
+# USD 0.526/hr in us-west-2
 INSTANCE=$(GPU_ML_X)
+IMAGE=$(AMI_AMAZON_LINUX_ML)
+SSH_USER=$(AMAZON_USER)
+
+else ifeq ($(PKG),gpu_big)
+
+# More expensive GPU with Python-based AMI
+# USD 1.204/hr in us-west-2
+INSTANCE=$(GPU_ML_4X)
+IMAGE=$(AMI_AMAZON_LINUX_ML)
+SSH_USER=$(AMAZON_USER)
+
+else ifeq ($(PKG),gpu_very_big)
+
+# Even more expensive GPU with Python-based AMI
+# USD 2.416/hr in us-west-2
+INSTANCE=$(GPU_ML_8X)
 IMAGE=$(AMI_AMAZON_LINUX_ML)
 SSH_USER=$(AMAZON_USER)
 
@@ -243,6 +276,7 @@ else ifeq ($(PKG),habana)
 # EXPENSIVE special-purpose AI processor
 # Requires prior authorization from http://aws.amazon.com/contact-us/ec2-request
 # to allow an account to request
+# USD 13.10904/hr in us-west-2
 INSTANCE=$(HABANA_24X)
 IMAGE=$(AMI_AMAZON_LINUX_ML_HABANA)
 SSH_USER=$(AMAZON_USER)
@@ -251,9 +285,9 @@ else ifeq ($(PKG),gpu_no_python)
 
 # Cheaper GPU with simpler AMI lacking Python
 # You probably don't want to use this package
-#INSTANCE=$(GPU_ML_X)
-#IMAGE=$(AMI_AMAZON_LINUX_GPU)
-#SSH_USER=$(AMAZON_USER)
+INSTANCE=$(GPU_ML_X)
+IMAGE=$(AMI_AMAZON_LINUX_GPU)
+SSH_USER=$(AMAZON_USER)
 
 else ifeq ($(PKG),)
 
@@ -279,15 +313,33 @@ ARMPKG=
 
 ifeq ($(ARMPKG),gpu)
 
-# Expensive instance with 1 GPU
-INSTANCE_ARM=$(GPU_ML_8X_ARM)
+# Mid-tier instance with 1 GPU
+# USD 0.828/hr in us-west-2
+INSTANCE_ARM=$(GPU_ML_4X_ARM)
 IMAGE_ARM=$(AMI_UBUNTU_ML_ARM)
 SSH_USER_ARM=$(UBUNTU_USER)
 
 else ifeq ($(ARMPKG),gpu_small)
 
 # Cheaper instance with 1 GPU
+# USD 0.556/hr in us-west-2
 INSTANCE_ARM=$(GPU_ML_2X_ARM)
+IMAGE_ARM=$(AMI_UBUNTU_ML_ARM)
+SSH_USER_ARM=$(UBUNTU_USER)
+
+else ifeq ($(ARMPKG),gpu_big)
+
+# More expensive instance with 1 GPU
+# USD 1.372/hr in us-west-2
+INSTANCE_ARM=$(GPU_ML_8X_ARM)
+IMAGE_ARM=$(AMI_UBUNTU_ML_ARM)
+SSH_USER_ARM=$(UBUNTU_USER)
+
+else ifeq ($(ARMPKG),gpu_very_big)
+
+# Even more expensive instance with 2 GPUs
+# USD 2.744/hr in us-west-2
+INSTANCE_ARM=$(GPU_ML_16X_ARM)
 IMAGE_ARM=$(AMI_UBUNTU_ML_ARM)
 SSH_USER_ARM=$(UBUNTU_USER)
 
