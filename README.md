@@ -37,7 +37,7 @@ directly. This creates all the non-templated files, such as
 `k8s.mak`.  You will use the non-templated makefiles in all the
 remaining steps.
 
-### 3. Ensure AWS DynamoDB is accessible/running
+### 2. Ensure AWS DynamoDB is accessible/running
 
 Regardless of where your cluster will run, it uses AWS DynamoDB
 for its backend database. Check that you have the necessary tables
