@@ -21,7 +21,8 @@ jobs:
       - name: Instantiate template files
         # For A1, only need ZZ-REG-ID to instantiate s2/standalone/unique_code-tpl.py
         run: |
-          sed -e "s/ZZ-REG-ID=.*/ZZ-REG-ID=${{ github.repository_owner }}/" cluster/tpl-vars-blank.txt > cluster/tpl-vars.txt
+          tools/find-canonical-owner.sh >> $GITHUB_ENV
+          sed -e "s/ZZ-REG-ID=.*/ZZ-REG-ID=${{ env.canonical-owner }}/" cluster/tpl-vars-blank.txt > cluster/tpl-vars.txt
           make -f k8s-tpl.mak templates
 
       - name: Build server
