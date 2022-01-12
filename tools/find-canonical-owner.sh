@@ -17,5 +17,5 @@ repoowner=${2}
 if [[ ${reponame} = "scp756-221/c756-exer" ]]; then
   echo "canonical-owner="${repoowner}
 else
-  echo "caonical-owner="${reponame} | sed -e "s/scp756-221\/assignments-//" 
+  echo "canonical-owner="${reponame} | sed -e "s/scp756-221\/assignments-//" 
 fi
