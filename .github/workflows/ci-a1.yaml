@@ -9,6 +9,7 @@ on:
       - s2/standalone/Makefile
       - s2/standalone/requirements.txt
       - s2/test/*
+      - tools/find-canonical-owner.sh
       - .github/workflows/ci-a1.yaml
 
 jobs:
