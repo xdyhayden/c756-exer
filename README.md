@@ -159,7 +159,7 @@ Logs files are saved here to reduce clutter.
 ├── ./logs
 ```
 
-Assignment 4's CLI for the Music service. It's non-core to the Music microservices.
+Assignment 4's CLI for the Music service. It's non-core to the Music microservices. At present, it is only useable for the Intel architecture. If you are working from an M1 Mac, you will not be able to build/use this. The workaround is to build/run from an (Intel) EC2 instance.
 ```
 ├── ./mcli
 ```
