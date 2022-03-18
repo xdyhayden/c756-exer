@@ -11,5 +11,7 @@ PORT=30001
 build-mcli:
 	docker image build $(ARCH) -f Dockerfile -t mcli:$(VER) .
 
+# TODO: M1 Mac may need to add $(ARCH) to the run below to pick off the x86 container
+# Oddly, Intel Mac does not accept the inclusion of a redundant $(ARCH)
 run-mcli:
-	docker container run $(ARCH) -it --rm --name mcli mcli:$(VER) python3 mcli.py $(SERVER) $(PORT)
+	docker container run -it --rm --name mcli mcli:$(VER) python3 mcli.py $(SERVER) $(PORT)

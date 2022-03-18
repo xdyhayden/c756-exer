@@ -19,5 +19,5 @@ if [[ ${reponame} = "scp756-221/c756-exer" ]]; then
 else
 # the regex below supports this repo's placement into a GitHub Education's assignment with some variety of names 
 # including "assigments" (original typo), "assignment2plus", and so forth
-  echo "canonical-owner="${reponame} | sed -E "s/scp756-221\/assign?ments?[0-9]*[a-z]*-//"
+  echo "canonical-owner="${reponame} | sed -E "s/scp756-221\/assign?ments?[0-9]*[a-z]*-//" | tr "[A-Z]+" "[a-z]+"
 fi
