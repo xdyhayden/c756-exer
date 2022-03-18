@@ -56,8 +56,18 @@ The resulting output should include tables `User` and `Music`.
 
 This is the tree of this repo. 
 
-`ci` is only useful for Assignment 7. 
+
+The CI material at `ci` and `.github/workflows` are presently designed for Assignment 7 and the course's operation. They're not useable for you and should be removed. If you are ambitious or familiar with GitHub action, the one flow that may be _illustrative_ is `ci-to-dockerhub.yaml`. **It is not directly useable as you team repo will not use templates.**
 ```
+├── ./.github
+│   └── ./.github/workflows
+│       ├── ./.github/workflows/ci-a1.yaml
+│       ├── ./.github/workflows/ci-a2.yaml
+│       ├── ./.github/workflows/ci-a3.yaml
+│       ├── ./.github/workflows/ci-mk-test.yaml
+│       ├── ./.github/workflows/ci-system-v1.1.yaml
+│       ├── ./.github/workflows/ci-system-v1.yaml
+│       └── ./.github/workflows/ci-to-dockerhub.yaml
 ├── ./ci
 │   ├── ./ci/v1
 │   └── ./ci/v1.1
