@@ -8,8 +8,7 @@ import hashlib
 
 def _compute_hash(userid, ex_string):
     h = hashlib.sha256()
-    effuser = userid.lower()
-    h.update(effuser.encode('UTF-8'))
+    h.update(userid.encode('UTF-8'))
     h.update(ex_string.encode('UTF-8'))
     return h.hexdigest()
 
