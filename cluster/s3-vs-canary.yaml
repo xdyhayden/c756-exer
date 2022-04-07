@@ -16,9 +16,9 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: cmpt756s2
+  name: cmpt756s3
 spec:
-  host: cmpt756s2
+  host: cmpt756s3
   subsets:
   - name: v1
     labels:
@@ -30,7 +30,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: cmpt756s2
+  name: cmpt756s3
 spec:
   hosts:
   # We do not know the hostname of traffic from this gateway, so
@@ -42,15 +42,12 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /api/v1/music
+        prefix: /api/v1/playlist
     rewrite:
-      uri: /api/v1/music
+      uri: /api/v1/playlist
     route:
     - destination:
-        host: cmpt756s2
+        host: cmpt756s3
         subset: v1
-      weight: 0
-    - destination:
-        host: cmpt756s2
-        subset: v2
       weight: 100
+    
