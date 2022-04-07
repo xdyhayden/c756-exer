@@ -7,5 +7,4 @@ allclouds.mak
 api.mak
 .DS_Store
 __pycache__
-ci/playlist/ci-system-playlist.yaml.yaml
 ci/playlist/ci-system-playlist.yaml
